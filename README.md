@@ -182,6 +182,7 @@ TypeORM
 Create the database before starting the application:
 
 CREATE DATABASE swc_learning;
+
 ⚡ Redis
 
 Redis is used for:
