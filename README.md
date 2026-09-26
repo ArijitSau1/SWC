@@ -101,7 +101,6 @@ A comprehensive educational platform for academic programs, courses, learning co
 
 ## 📂 Main Modules
 
-```text
 Authentication
 Account
 Academic Level
@@ -123,3 +122,86 @@ Competitive Category
 Competitive Exam
 Competitive Subject
 Email Service
+
+
+🔗 API
+Base URL
+http://localhost:3000/api/v1
+
+
+Authentication
+POST /auth/login
+GET  /auth/profile
+POST /auth/logout
+POST /auth/forgot-password
+POST /auth/verify-code
+POST /auth/reset-password
+
+Academic Structure
+GET /academic-levels
+GET /academic-programs
+GET /academic-classes
+GET /academic-streams
+GET /academic-semesters
+
+Courses & Content
+GET /course
+GET /course/:id
+GET /course-content/course/:courseId
+GET /course-content/course/:courseId?type=VIDEO
+
+Mock Tests
+GET  /mock-tests/:id
+POST /mock-test-attempts/submit
+GET  /mock-test-attempts/my-results
+GET  /mock-test-attempts/review/:id
+
+Account
+POST  /account/register
+GET   /account/profile
+PATCH /account/profile
+PUT   /account/profile/image
+
+🔐 Authentication Flow
+User logs in using POST /auth/login
+Server validates the credentials
+JWT is generated
+JWT is stored in an HTTP-only cookie
+Protected requests are authenticated using JwtAuthGuard
+RolesGuard checks user permissions where required
+POST /auth/logout clears the authentication cookie
+
+
+🗄️ Database
+
+The project uses:
+
+MySQL
+TypeORM
+
+Create the database before starting the application:
+
+CREATE DATABASE swc_learning;
+⚡ Redis
+
+Redis is used for:
+
+API caching
+Cache invalidation
+BullMQ background jobs
+
+Make sure Redis is running before starting the application.
+
+📌 Project Status
+
+Completed Backend Project
+
+The backend includes authentication, academic management, course management, learning content, mock tests, competitive exams, caching, email services, file management, and API security.
+
+👨‍💻 Author
+
+Arijit Sau
+
+Backend Developer
+
+**Technologies:** NestJS • TypeScript • MySQL • TypeORM • Redis • BullMQ • JWT • Nodemailer • HTTP-only Cookies • BunnyCDN
