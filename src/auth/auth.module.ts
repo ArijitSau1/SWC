@@ -9,33 +9,36 @@ import { Account } from '../account/entities/account.entity';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { PasswordReset } from './entities/password-reset.entity';
 import { NodeMailerModule } from '../node-mailer/node-mailer.module';
+import { EmailModule } from '../email/email.module';
+import { StringValue } from 'ms';
 
 @Module({
   imports: [
     ConfigModule,
 
-    TypeOrmModule.forFeature([Account,PasswordReset]),
+    TypeOrmModule.forFeature([Account, PasswordReset]),
 
     JwtModule.registerAsync({
       imports: [ConfigModule],
-
       inject: [ConfigService],
 
-       useFactory: () => {
-        return {
-          secret: process.env.JWT_SECRET,
-          signOptions: {
-            expiresIn: '7d',
-          },
-        };
-      },
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.getOrThrow<string>('JWT_ACCESS_SECRET'),
+
+        signOptions: {
+          expiresIn: configService.getOrThrow<StringValue>(
+            'JWT_ACCESS_EXPIRES_IN',
+          ),
+        },
       }),
-       NodeMailerModule,
+    }),
+    NodeMailerModule,
+    EmailModule,
   ],
 
   controllers: [AuthController],
 
-  providers: [AuthService,JwtStrategy],
+  providers: [AuthService, JwtStrategy],
 
   exports: [AuthService],
 })
