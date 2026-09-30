@@ -16,6 +16,10 @@ import APIFeatures from 'src/utils/apiFeatures.utils';
 import { PasswordReset } from './entities/password-reset.entity';
 
 import { EmailService } from '../email/email.service';
+import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { Inject } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -29,6 +33,12 @@ export class AuthService {
 
     @InjectRepository(PasswordReset)
     private readonly passwordResetRepo: Repository<PasswordReset>,
+
+    @InjectRepository(UserPermission)
+  private readonly upRepo: Repository<UserPermission>,
+
+  @Inject(CACHE_MANAGER)
+  private readonly cacheManager: Cache,
   ) {}
 
   async signIn(email: string, password: string) {
@@ -54,6 +64,29 @@ export class AuthService {
   validate(id: string) {
     return this.getUserDetails(id);
   }
+
+  findPermission(accountId: string) {
+    return this.getPermissions(accountId);
+  }
+
+     private readonly getPermissions = async (accountId: string): Promise<any> => {
+    let result = await this.cacheManager.get('userPermission' + accountId);
+    if (!result) {
+      result = await this.upRepo.find({
+        relations: {
+           permission: true,
+           menu: true,
+},
+        where: { accountId, status: true },
+      });
+      this.cacheManager.set(
+        'userPermission' + accountId,
+        result,
+        7 * 24 * 60 * 60 * 1000,
+      );
+    }
+    return result;
+  };
 
   private readonly getUserDetails = async (id: string): Promise<Account> => {
     const query = this.repo

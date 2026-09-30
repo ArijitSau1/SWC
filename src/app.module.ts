@@ -35,6 +35,10 @@ import { MockTestAttemptModule } from './mock-test-attempt/mock-test-attempt.mod
 import { CompetitiveCategoryModule } from './competitive-category/competitive-category.module';
 import { CompetitiveExamModule } from './competitive-exam/competitive-exam.module';
 import { CompetitiveSubjectModule } from './competitive-subject/competitive-subject.module';
+import { PaymentModule } from './payment/payment.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { MenusModule } from './menus/menus.module';
+import { UserPermissionsModule } from './user-permissions/user-permissions.module';
 
 @Module({
   imports: [
@@ -105,7 +109,11 @@ import { CompetitiveSubjectModule } from './competitive-subject/competitive-subj
     MockTestAttemptModule,
     CompetitiveCategoryModule,
     CompetitiveExamModule,
-    CompetitiveSubjectModule
+    CompetitiveSubjectModule,
+    PaymentModule,
+    PermissionsModule,
+    MenusModule,
+    UserPermissionsModule
   ],
 
   controllers: [AppController],

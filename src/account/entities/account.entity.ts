@@ -4,11 +4,13 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 import { Exclude } from 'class-transformer';
 import { UserRole } from 'src/enum/user-role.enum';
 import { Gender } from 'src/enum/gender.enum';
+import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
 
 @Entity('accounts')
 export class Account {
@@ -89,4 +91,7 @@ export class Account {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => UserPermission, (userPermission) => userPermission.account)
+    userPermission: UserPermission[];
 }

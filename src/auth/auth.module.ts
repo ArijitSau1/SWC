@@ -11,12 +11,13 @@ import { PasswordReset } from './entities/password-reset.entity';
 import { NodeMailerModule } from '../node-mailer/node-mailer.module';
 import { EmailModule } from '../email/email.module';
 import { StringValue } from 'ms';
+import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
 
 @Module({
   imports: [
     ConfigModule,
 
-    TypeOrmModule.forFeature([Account, PasswordReset]),
+    TypeOrmModule.forFeature([Account, PasswordReset,UserPermission]),
 
     JwtModule.registerAsync({
       imports: [ConfigModule],
